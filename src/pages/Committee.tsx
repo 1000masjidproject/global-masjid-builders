@@ -216,6 +216,141 @@ const Committee = () => {
         </div>
       </section>
 
+      {/* Nominated Members */}
+      <section className="py-20 bg-muted">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-6xl mx-auto"
+          >
+            <h2 className="text-4xl font-bold mb-8 text-center">Nominated Committee Members</h2>
+            <p className="text-lg text-muted-foreground text-center mb-12 max-w-3xl mx-auto">
+              These distinguished individuals have been nominated for the Global Committee based on their 
+              exceptional leadership, dedication to humanitarian work, and commitment to Islamic values.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { name: "Dr. Ahmed Hassan", region: "Middle East & North Africa", expertise: "Islamic Finance & Development" },
+                { name: "Fatima Al-Zahra", region: "Southeast Asia", expertise: "Community Development" },
+                { name: "Ibrahim Yusuf", region: "East Africa", expertise: "Construction & Engineering" },
+                { name: "Aisha Rahman", region: "South Asia", expertise: "Strategic Planning" },
+                { name: "Omar Abdullah", region: "Europe", expertise: "International Relations" },
+                { name: "Maryam Khalil", region: "West Africa", expertise: "Social Impact Assessment" },
+                { name: "Dr. Karim Saeed", region: "Central Asia", expertise: "Organizational Management" },
+                { name: "Zainab Hussain", region: "North America", expertise: "Finance & Audit" },
+                { name: "Abdullah Khan", region: "South America", expertise: "Community Outreach" },
+                { name: "Dr. Layla Mohamed", region: "Middle East & North Africa", expertise: "Educational Programs" },
+                { name: "Hassan Ibrahim", region: "Southeast Asia", expertise: "Technology & Innovation" },
+                { name: "Khadija Ahmed", region: "East Africa", expertise: "Healthcare Initiatives" },
+                { name: "Yousef Malik", region: "South Asia", expertise: "Youth Engagement" },
+                { name: "Safiya Abbas", region: "Europe", expertise: "Public Relations" },
+                { name: "Dr. Tariq Rahman", region: "West Africa", expertise: "Sustainability & Environment" },
+              ].map((member, index) => (
+                <motion.div
+                  key={member.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.05 }}
+                >
+                  <Card className="h-full hover:shadow-card-hover transition-shadow">
+                    <CardContent className="p-6">
+                      <h3 className="text-lg font-semibold mb-2">{member.name}</h3>
+                      <div className="space-y-1 text-sm text-muted-foreground">
+                        <p><strong className="text-foreground">Region:</strong> {member.region}</p>
+                        <p><strong className="text-foreground">Expertise:</strong> {member.expertise}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Election Panel */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-5xl mx-auto"
+          >
+            <h2 className="text-4xl font-bold mb-8 text-center">Independent Election Panel</h2>
+            <p className="text-lg text-muted-foreground text-center mb-12">
+              Our independent election panel ensures a fair, transparent, and democratic election process. 
+              Each panel member brings expertise in governance, electoral oversight, and Islamic jurisprudence.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[
+                { 
+                  name: "Dr. Mahmoud Al-Azhari", 
+                  role: "Panel Chair", 
+                  credentials: "Former Electoral Commissioner, 25+ years in governance",
+                  description: "Oversees the entire election process and ensures compliance with established protocols."
+                },
+                { 
+                  name: "Justice Amina Farooq", 
+                  role: "Legal Advisor", 
+                  credentials: "Retired Supreme Court Judge, Islamic Law Scholar",
+                  description: "Provides legal guidance and ensures elections meet both civil and Islamic legal standards."
+                },
+                { 
+                  name: "Prof. Rashid Al-Hashimi", 
+                  role: "Transparency Officer", 
+                  credentials: "International Democracy Expert, UN Election Observer",
+                  description: "Monitors voting procedures and validates the integrity of the electoral process."
+                },
+                { 
+                  name: "Dr. Safiya Qureshi", 
+                  role: "Community Representative", 
+                  credentials: "Civil Society Leader, Community Development Expert",
+                  description: "Ensures community voices are heard and represented throughout the election."
+                },
+                { 
+                  name: "Sheikh Abdullah Al-Mansoori", 
+                  role: "Islamic Advisory", 
+                  credentials: "Senior Scholar, Islamic Jurisprudence Specialist",
+                  description: "Advises on Islamic principles and ensures elections align with Sharia guidelines."
+                },
+              ].map((panelist, index) => (
+                <motion.div
+                  key={panelist.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <Card className="h-full hover:shadow-card-hover transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="text-xl font-semibold mb-1">{panelist.name}</h3>
+                          <p className="text-primary font-medium">{panelist.role}</p>
+                        </div>
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Vote className="w-5 h-5 text-primary" />
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-3 italic">{panelist.credentials}</p>
+                      <p className="text-sm text-muted-foreground">{panelist.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Call to Action */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4">
