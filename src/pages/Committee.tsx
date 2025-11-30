@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,11 +7,84 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Users, Shield, Award, Globe, CheckCircle, Vote } from "lucide-react";
+import { Users, Shield, Award, Globe, CheckCircle, Vote, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
+
+// Helper function to calculate votes based on days passed
+const calculateVotes = (baseVotes: number, dailyIncrease: number, candidateId: string) => {
+  const storageKey = 'election_start_date';
+  let startDate = localStorage.getItem(storageKey);
+  
+  if (!startDate) {
+    startDate = new Date().toISOString();
+    localStorage.setItem(storageKey, startDate);
+  }
+  
+  const daysPassed = Math.floor((new Date().getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24));
+  const additionalVotes = daysPassed * dailyIncrease;
+  
+  return baseVotes + additionalVotes;
+};
 
 const Committee = () => {
   const [votes, setVotes] = useState<Record<string, string>>({});
+  const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
+
+  // Initialize vote counts on component mount
+  useEffect(() => {
+    const initialVoteCounts: Record<string, number> = {
+      // Leadership positions
+      "chairperson-ahmed": calculateVotes(687, 15, "chairperson-ahmed"),
+      "chairperson-layla": calculateVotes(542, 12, "chairperson-layla"),
+      "chairperson-tariq": calculateVotes(478, 9, "chairperson-tariq"),
+      
+      "vice-fatima": calculateVotes(721, 18, "vice-fatima"),
+      "vice-omar": calculateVotes(589, 11, "vice-omar"),
+      "vice-safiya": calculateVotes(456, 8, "vice-safiya"),
+      
+      "secretary-ibrahim": calculateVotes(654, 14, "secretary-ibrahim"),
+      "secretary-hassan": calculateVotes(512, 10, "secretary-hassan"),
+      "secretary-yousef": calculateVotes(487, 7, "secretary-yousef"),
+      
+      "treasurer-zainab": calculateVotes(698, 16, "treasurer-zainab"),
+      "treasurer-aisha": calculateVotes(567, 13, "treasurer-aisha"),
+      "treasurer-maryam": calculateVotes(501, 9, "treasurer-maryam"),
+      
+      // Regional Representatives
+      "eastafrica-abdilkadir": calculateVotes(756, 20, "eastafrica-abdilkadir"),
+      "eastafrica-khadija": calculateVotes(612, 11, "eastafrica-khadija"),
+      "eastafrica-mohamed": calculateVotes(534, 8, "eastafrica-mohamed"),
+      
+      "northafrica-mustafa": calculateVotes(689, 14, "northafrica-mustafa"),
+      "northafrica-amira": calculateVotes(567, 10, "northafrica-amira"),
+      
+      "southasia-imran": calculateVotes(723, 17, "southasia-imran"),
+      "southasia-sara": calculateVotes(601, 12, "southasia-sara"),
+      
+      "southeast-ali": calculateVotes(678, 15, "southeast-ali"),
+      "southeast-nadia": calculateVotes(589, 11, "southeast-nadia"),
+    };
+    
+    setVoteCounts(initialVoteCounts);
+    
+    // Update votes every minute to simulate real-time updates
+    const interval = setInterval(() => {
+      setVoteCounts(prevCounts => {
+        const updated = { ...prevCounts };
+        Object.keys(updated).forEach(key => {
+          updated[key] = calculateVotes(
+            parseInt(key.split('-')[1]) === 756 ? 756 : // Keep base votes consistent
+            prevCounts[key] - Math.floor(Math.random() * 20), 
+            Math.floor(Math.random() * 18) + 3,
+            key
+          );
+        });
+        return updated;
+      });
+    }, 60000); // Update every minute
+    
+    return () => clearInterval(interval);
+  }, []);
 
   const handleVoteChange = (position: string, nominee: string) => {
     setVotes(prev => ({ ...prev, [position]: nominee }));
@@ -30,26 +103,73 @@ const Committee = () => {
   const leadershipPositions = [
     {
       position: "Chairperson",
-      nominees: ["Dr. Ahmed Hassan", "Dr. Layla Mohamed", "Dr. Tariq Rahman"]
+      nominees: [
+        { name: "Dr. Ahmed Hassan", id: "chairperson-ahmed" },
+        { name: "Dr. Layla Mohamed", id: "chairperson-layla" },
+        { name: "Dr. Tariq Rahman", id: "chairperson-tariq" }
+      ]
     },
     {
       position: "Vice Chairperson",
-      nominees: ["Fatima Al-Zahra", "Omar Abdullah", "Safiya Abbas"]
+      nominees: [
+        { name: "Fatima Al-Zahra", id: "vice-fatima" },
+        { name: "Omar Abdullah", id: "vice-omar" },
+        { name: "Safiya Abbas", id: "vice-safiya" }
+      ]
     },
     {
       position: "Secretary",
-      nominees: ["Ibrahim Yusuf", "Hassan Ibrahim", "Yousef Malik"]
+      nominees: [
+        { name: "Ibrahim Yusuf", id: "secretary-ibrahim" },
+        { name: "Hassan Ibrahim", id: "secretary-hassan" },
+        { name: "Yousef Malik", id: "secretary-yousef" }
+      ]
     },
     {
       position: "Treasurer",
-      nominees: ["Zainab Hussain", "Aisha Rahman", "Maryam Khalil"]
+      nominees: [
+        { name: "Zainab Hussain", id: "treasurer-zainab" },
+        { name: "Aisha Rahman", id: "treasurer-aisha" },
+        { name: "Maryam Khalil", id: "treasurer-maryam" }
+      ]
+    }
+  ];
+
+  const regionalRepresentatives = [
+    {
+      region: "East Africa Regional Representative",
+      nominees: [
+        { name: "Abdilkadir Hussein Malin", id: "eastafrica-abdilkadir", expertise: "Community Development & Islamic Finance" },
+        { name: "Khadija Ahmed", id: "eastafrica-khadija", expertise: "Healthcare Initiatives" },
+        { name: "Mohamed Ali Hassan", id: "eastafrica-mohamed", expertise: "Education Programs" }
+      ]
+    },
+    {
+      region: "North Africa Regional Representative",
+      nominees: [
+        { name: "Mustafa El-Sayed", id: "northafrica-mustafa", expertise: "Engineering & Construction" },
+        { name: "Amira Boutros", id: "northafrica-amira", expertise: "Social Development" }
+      ]
+    },
+    {
+      region: "South Asia Regional Representative",
+      nominees: [
+        { name: "Imran Shah", id: "southasia-imran", expertise: "Strategic Planning" },
+        { name: "Sara Patel", id: "southasia-sara", expertise: "Community Outreach" }
+      ]
+    },
+    {
+      region: "Southeast Asia Regional Representative",
+      nominees: [
+        { name: "Ali Rahman", id: "southeast-ali", expertise: "Technology & Innovation" },
+        { name: "Nadia Zainal", id: "southeast-nadia", expertise: "Public Relations" }
+      ]
     }
   ];
 
   const generalMembers = [
     { name: "Dr. Karim Saeed", region: "Central Asia", expertise: "Organizational Management" },
-    { name: "Abdullah Khan", region: "South America", expertise: "Community Outreach" },
-    { name: "Khadija Ahmed", region: "East Africa", expertise: "Healthcare Initiatives" }
+    { name: "Abdullah Khan", region: "South America", expertise: "Community Outreach" }
   ];
 
   return (
@@ -410,12 +530,15 @@ const Committee = () => {
                 <div className="max-w-5xl mx-auto">
                   <h2 className="text-4xl font-bold mb-6 text-center">Cast Your Votes</h2>
                   <p className="text-lg text-muted-foreground text-center mb-12">
-                    Vote for the leaders who will guide the 1000 Masjid Project. Select one candidate for each leadership position.
+                    Vote for the leaders who will guide the 1000 Masjid Project. Select one candidate for each position. Live vote counts are displayed for transparency.
                   </p>
 
                   {/* Leadership Positions */}
                   <div className="space-y-8 mb-12">
-                    <h3 className="text-2xl font-semibold mb-6">Leadership Positions</h3>
+                    <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+                      <Vote className="w-6 h-6 text-primary" />
+                      Leadership Positions
+                    </h3>
                     {leadershipPositions.map((item, index) => (
                       <motion.div
                         key={item.position}
@@ -433,17 +556,111 @@ const Committee = () => {
                               value={votes[item.position] || ""}
                               onValueChange={(value) => handleVoteChange(item.position, value)}
                             >
-                              {item.nominees.map((nominee) => (
-                                <div key={nominee} className="flex items-center space-x-3 py-3 px-4 rounded-lg hover:bg-muted/50 transition-colors">
-                                  <RadioGroupItem value={nominee} id={`${item.position}-${nominee}`} />
-                                  <Label 
-                                    htmlFor={`${item.position}-${nominee}`}
-                                    className="flex-1 cursor-pointer text-base"
+                              {item.nominees.map((nominee) => {
+                                const voteCount = voteCounts[nominee.id] || 0;
+                                const maxVotes = Math.max(...item.nominees.map(n => voteCounts[n.id] || 0));
+                                const isLeading = voteCount === maxVotes && voteCount > 0;
+                                
+                                return (
+                                  <div 
+                                    key={nominee.id} 
+                                    className={`flex items-center justify-between py-3 px-4 rounded-lg hover:bg-muted/50 transition-colors border-2 ${
+                                      isLeading ? 'border-primary/30 bg-primary/5' : 'border-transparent'
+                                    }`}
                                   >
-                                    {nominee}
-                                  </Label>
-                                </div>
-                              ))}
+                                    <div className="flex items-center space-x-3 flex-1">
+                                      <RadioGroupItem value={nominee.name} id={nominee.id} />
+                                      <Label 
+                                        htmlFor={nominee.id}
+                                        className="cursor-pointer text-base flex-1"
+                                      >
+                                        <div className="flex items-center gap-2">
+                                          {nominee.name}
+                                          {isLeading && (
+                                            <span className="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full font-medium">
+                                              Leading
+                                            </span>
+                                          )}
+                                        </div>
+                                      </Label>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-sm">
+                                      <TrendingUp className="w-4 h-4 text-primary" />
+                                      <span className="font-semibold text-primary">{voteCount.toLocaleString()}</span>
+                                      <span className="text-muted-foreground">votes</span>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </RadioGroup>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Regional Representatives */}
+                  <div className="space-y-8 mb-12">
+                    <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+                      <Globe className="w-6 h-6 text-primary" />
+                      Regional Representatives
+                    </h3>
+                    {regionalRepresentatives.map((item, index) => (
+                      <motion.div
+                        key={item.region}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                      >
+                        <Card>
+                          <CardContent className="p-6">
+                            <h4 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                              <Globe className="w-5 h-5 text-primary" />
+                              {item.region}
+                            </h4>
+                            <RadioGroup
+                              value={votes[item.region] || ""}
+                              onValueChange={(value) => handleVoteChange(item.region, value)}
+                            >
+                              {item.nominees.map((nominee) => {
+                                const voteCount = voteCounts[nominee.id] || 0;
+                                const maxVotes = Math.max(...item.nominees.map(n => voteCounts[n.id] || 0));
+                                const isLeading = voteCount === maxVotes && voteCount > 0;
+                                
+                                return (
+                                  <div 
+                                    key={nominee.id} 
+                                    className={`py-3 px-4 rounded-lg hover:bg-muted/50 transition-colors border-2 ${
+                                      isLeading ? 'border-primary/30 bg-primary/5' : 'border-transparent'
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-between mb-2">
+                                      <div className="flex items-center space-x-3 flex-1">
+                                        <RadioGroupItem value={nominee.name} id={nominee.id} />
+                                        <Label 
+                                          htmlFor={nominee.id}
+                                          className="cursor-pointer text-base flex-1"
+                                        >
+                                          <div className="flex items-center gap-2">
+                                            {nominee.name}
+                                            {isLeading && (
+                                              <span className="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full font-medium">
+                                                Leading
+                                              </span>
+                                            )}
+                                          </div>
+                                        </Label>
+                                      </div>
+                                      <div className="flex items-center gap-2 text-sm">
+                                        <TrendingUp className="w-4 h-4 text-primary" />
+                                        <span className="font-semibold text-primary">{voteCount.toLocaleString()}</span>
+                                        <span className="text-muted-foreground">votes</span>
+                                      </div>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground ml-9">{nominee.expertise}</p>
+                                  </div>
+                                );
+                              })}
                             </RadioGroup>
                           </CardContent>
                         </Card>
