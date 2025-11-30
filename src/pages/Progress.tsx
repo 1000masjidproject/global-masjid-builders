@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { MapPin, Clock, CheckCircle, Building } from "lucide-react";
+import { MapPin, Clock, CheckCircle, Building, DollarSign, Target } from "lucide-react";
 import mosque1 from "@/assets/mosque-1.jpg";
 import mosqueConstruction from "@/assets/mosque-construction.jpg";
 
@@ -50,25 +50,96 @@ const ProgressPage = () => {
         </div>
       </section>
 
+      {/* Donation Progress */}
+      <section className="py-16 bg-gradient-to-br from-primary to-primary/90 text-primary-foreground">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto"
+          >
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary-foreground/10 mb-4">
+                <Target className="w-7 h-7" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">Donation Progress</h2>
+              <p className="text-lg opacity-90">Help us reach our goal to build 1,000 mosques worldwide</p>
+            </div>
+
+            <Card className="bg-background text-foreground">
+              <CardContent className="p-8">
+                <div className="space-y-6">
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">Total Raised</div>
+                      <div className="text-4xl font-bold text-primary">$247,500,000</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm text-muted-foreground mb-1">Target Goal</div>
+                      <div className="text-2xl font-bold">$1,000,000,000</div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="font-medium">Progress to Goal</span>
+                      <span className="text-primary font-bold text-lg">24.75%</span>
+                    </div>
+                    <Progress value={24.75} className="h-4" />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t">
+                    <div className="text-center p-4 bg-muted rounded-lg">
+                      <DollarSign className="w-6 h-6 mx-auto mb-2 text-primary" />
+                      <div className="text-2xl font-bold">142,847</div>
+                      <div className="text-sm text-muted-foreground">Total Donors</div>
+                    </div>
+                    <div className="text-center p-4 bg-muted rounded-lg">
+                      <Building className="w-6 h-6 mx-auto mb-2 text-primary" />
+                      <div className="text-2xl font-bold">$405,000</div>
+                      <div className="text-sm text-muted-foreground">Avg per Mosque</div>
+                    </div>
+                  </div>
+
+                  <div className="text-center pt-4">
+                    <p className="text-muted-foreground mb-4">
+                      Every contribution brings us closer to our mission. Your generosity is transforming communities.
+                    </p>
+                    <a 
+                      href="/donate" 
+                      className="inline-block px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                    >
+                      Donate Now
+                    </a>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Overall Stats */}
-      <section className="py-12 bg-primary text-primary-foreground">
+      <section className="py-12 bg-muted">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
             <div>
               <div className="text-4xl font-bold mb-2">247</div>
-              <div className="text-sm opacity-90">Completed</div>
+              <div className="text-sm text-muted-foreground">Completed</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">153</div>
-              <div className="text-sm opacity-90">Ongoing</div>
+              <div className="text-sm text-muted-foreground">Ongoing</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">600</div>
-              <div className="text-sm opacity-90">Planned</div>
+              <div className="text-sm text-muted-foreground">Planned</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">24.7%</div>
-              <div className="text-sm opacity-90">Total Progress</div>
+              <div className="text-sm text-muted-foreground">Total Progress</div>
             </div>
           </div>
         </div>
