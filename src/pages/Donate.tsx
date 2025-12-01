@@ -118,6 +118,29 @@ const Donate = () => {
                     </RadioGroup>
                   </div>
 
+                  {/* Payment Methods */}
+                  <div className="mb-8">
+                    <Label className="text-base font-semibold mb-3 block">Payment Method</Label>
+                    <RadioGroup defaultValue="card">
+                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                        <RadioGroupItem value="card" id="card" />
+                        <span>💳 Card Payment (Visa, Mastercard, Amex)</span>
+                      </label>
+                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                        <RadioGroupItem value="mobile" id="mobile" />
+                        <span>📱 Mobile Money (M-Pesa, Ecocash, MTN)</span>
+                      </label>
+                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                        <RadioGroupItem value="bank" id="bank" />
+                        <span>🏦 Bank Transfer (Wire/ACH)</span>
+                      </label>
+                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                        <RadioGroupItem value="crypto" id="crypto" />
+                        <span>₿ Cryptocurrency (Bitcoin BTC)</span>
+                      </label>
+                    </RadioGroup>
+                  </div>
+
                   <Button className="w-full bg-hero-gradient hover:opacity-90 transition-opacity" size="lg">
                     <Heart className="mr-2 w-5 h-5" fill="currentColor" />
                     Donate ${amount} {frequency === 'monthly' ? '/month' : ''}

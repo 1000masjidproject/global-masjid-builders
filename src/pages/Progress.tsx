@@ -11,12 +11,10 @@ const ProgressPage = () => {
   const completedProjects = [
     { name: "Al-Rahman Mosque", location: "Jakarta, Indonesia", year: 2024, capacity: "2,000+", image: mosque1 },
     { name: "Unity Mosque", location: "Sarajevo, Bosnia", year: 2023, capacity: "1,500+", image: mosque1 },
-    { name: "Peace Center Mosque", location: "Nairobi, Kenya", year: 2024, capacity: "1,200+", image: mosque1 },
     { name: "Al-Huda Mosque", location: "Dhaka, Bangladesh", year: 2023, capacity: "3,000+", image: mosque1 },
   ];
 
   const ongoingProjects = [
-    { name: "Al-Noor Mosque", location: "Nairobi, Kenya", progress: 85, completion: "Q2 2025", image: mosqueConstruction },
     { name: "Mercy Mosque", location: "Cairo, Egypt", progress: 65, completion: "Q3 2025", image: mosqueConstruction },
     { name: "Hope Center Mosque", location: "Karachi, Pakistan", progress: 45, completion: "Q4 2025", image: mosqueConstruction },
   ];
@@ -78,16 +76,16 @@ const ProgressPage = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-sm text-muted-foreground mb-1">Target Goal</div>
-                      <div className="text-2xl font-bold">$1,000,000,000</div>
+                      <div className="text-2xl font-bold">$500,000,000</div>
                     </div>
                   </div>
                   
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="font-medium">Progress to Goal</span>
-                      <span className="text-primary font-bold text-lg">24.75%</span>
+                      <span className="text-primary font-bold text-lg">49.5%</span>
                     </div>
-                    <Progress value={24.75} className="h-4" />
+                    <Progress value={49.5} className="h-4" />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 pt-4 border-t">
