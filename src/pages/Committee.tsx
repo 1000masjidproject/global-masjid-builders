@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Users, Shield, Award, Globe, CheckCircle, Vote, TrendingUp } from "lucide-react";
+import { Users, Shield, Award, Globe, CheckCircle, Vote, TrendingUp, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 
 // Helper function to calculate votes based on days passed
@@ -67,17 +68,61 @@ const Committee = () => {
     
     setVoteCounts(initialVoteCounts);
     
-    // Update votes every minute to simulate real-time updates
+    // Update votes every minute to only increase
     const interval = setInterval(() => {
       setVoteCounts(prevCounts => {
         const updated = { ...prevCounts };
-        Object.keys(updated).forEach(key => {
-          updated[key] = calculateVotes(
-            parseInt(key.split('-')[1]) === 756 ? 756 : // Keep base votes consistent
-            prevCounts[key] - Math.floor(Math.random() * 20), 
-            Math.floor(Math.random() * 18) + 3,
+        Object.entries(updated).forEach(([key, currentVotes]) => {
+          // Calculate new votes using the same function
+          const newVotes = calculateVotes(
+            // Extract base votes from the key
+            key === "eastafrica-abdilkadir" ? 756 :
+            key === "vice-fatima" ? 721 :
+            key === "southasia-imran" ? 723 :
+            key === "treasurer-zainab" ? 698 :
+            key === "northafrica-mustafa" ? 689 :
+            key === "chairperson-ahmed" ? 687 :
+            key === "southeast-ali" ? 678 :
+            key === "secretary-ibrahim" ? 654 :
+            key === "eastafrica-khadija" ? 612 :
+            key === "southasia-sara" ? 601 :
+            key === "vice-omar" ? 589 :
+            key === "southeast-nadia" ? 589 :
+            key === "treasurer-aisha" ? 567 :
+            key === "northafrica-amira" ? 567 :
+            key === "chairperson-layla" ? 542 :
+            key === "eastafrica-mohamed" ? 534 :
+            key === "secretary-hassan" ? 512 :
+            key === "treasurer-maryam" ? 501 :
+            key === "secretary-yousef" ? 487 :
+            key === "vice-safiya" ? 456 :
+            key === "chairperson-tariq" ? 478 : 500,
+            // Daily increase
+            key === "eastafrica-abdilkadir" ? 20 :
+            key === "vice-fatima" ? 18 :
+            key === "southasia-imran" ? 17 :
+            key === "treasurer-zainab" ? 16 :
+            key === "chairperson-ahmed" ? 15 :
+            key === "southeast-ali" ? 15 :
+            key === "northafrica-mustafa" ? 14 :
+            key === "secretary-ibrahim" ? 14 :
+            key === "treasurer-aisha" ? 13 :
+            key === "chairperson-layla" ? 12 :
+            key === "southasia-sara" ? 12 :
+            key === "vice-omar" ? 11 :
+            key === "southeast-nadia" ? 11 :
+            key === "eastafrica-khadija" ? 11 :
+            key === "secretary-hassan" ? 10 :
+            key === "northafrica-amira" ? 10 :
+            key === "treasurer-maryam" ? 9 :
+            key === "chairperson-tariq" ? 9 :
+            key === "eastafrica-mohamed" ? 8 :
+            key === "vice-safiya" ? 8 :
+            key === "secretary-yousef" ? 7 : 5,
             key
           );
+          // Only update if new votes are higher (ensures votes only increase)
+          updated[key] = Math.max(currentVotes, newVotes);
         });
         return updated;
       });
@@ -96,8 +141,26 @@ const Committee = () => {
       toast.error("Please select at least one candidate to vote for");
       return;
     }
+    
+    // Add votes to current counts
+    setVoteCounts(prevCounts => {
+      const updated = { ...prevCounts };
+      Object.values(votes).forEach(votedName => {
+        // Find the nominee id that matches the voted name
+        const allNominees = [
+          ...leadershipPositions.flatMap(p => p.nominees),
+          ...regionalRepresentatives.flatMap(r => r.nominees)
+        ];
+        const nominee = allNominees.find(n => n.name === votedName);
+        if (nominee && updated[nominee.id] !== undefined) {
+          updated[nominee.id] = updated[nominee.id] + 1;
+        }
+      });
+      return updated;
+    });
+    
     toast.success(`Your votes have been recorded! You voted for ${voteCount} position(s).`);
-    console.log("Votes submitted:", votes);
+    setVotes({}); // Clear selections after voting
   };
 
   const leadershipPositions = [
@@ -548,10 +611,20 @@ const Committee = () => {
                       >
                         <Card>
                           <CardContent className="p-6">
-                            <h4 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                              <Vote className="w-5 h-5 text-primary" />
-                              {item.position}
-                            </h4>
+                            <div className="flex items-center justify-between mb-4">
+                              <h4 className="text-xl font-semibold flex items-center gap-2">
+                                <Vote className="w-5 h-5 text-primary" />
+                                {item.position}
+                              </h4>
+                              {item.position === "Chairperson" && (
+                                <Link to="/elections/chairperson">
+                                  <Button variant="outline" size="sm">
+                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                    View Page
+                                  </Button>
+                                </Link>
+                              )}
+                            </div>
                             <RadioGroup
                               value={votes[item.position] || ""}
                               onValueChange={(value) => handleVoteChange(item.position, value)}
@@ -614,10 +687,20 @@ const Committee = () => {
                       >
                         <Card>
                           <CardContent className="p-6">
-                            <h4 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                              <Globe className="w-5 h-5 text-primary" />
-                              {item.region}
-                            </h4>
+                            <div className="flex items-center justify-between mb-4">
+                              <h4 className="text-xl font-semibold flex items-center gap-2">
+                                <Globe className="w-5 h-5 text-primary" />
+                                {item.region}
+                              </h4>
+                              {item.region === "East Africa Regional Representative" && (
+                                <Link to="/elections/east-africa">
+                                  <Button variant="outline" size="sm">
+                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                    View Page
+                                  </Button>
+                                </Link>
+                              )}
+                            </div>
                             <RadioGroup
                               value={votes[item.region] || ""}
                               onValueChange={(value) => handleVoteChange(item.region, value)}
