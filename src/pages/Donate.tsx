@@ -7,13 +7,34 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Heart, Shield, Users, CheckCircle } from "lucide-react";
+import { Heart, Shield, Users, CheckCircle, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const Donate = () => {
   const [amount, setAmount] = useState("100");
   const [frequency, setFrequency] = useState("one-time");
+  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const presetAmounts = ["50", "100", "250", "500", "1000"];
+
+  const handleDonate = async () => {
+    setIsProcessing(true);
+    
+    // Simulate payment gateway processing
+    setTimeout(() => {
+      setIsProcessing(false);
+      setShowConfirmation(true);
+      toast.success("Payment processed successfully!");
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setShowConfirmation(false);
+        setAmount("100");
+      }, 3000);
+    }, 2000);
+  };
 
   return (
     <div className="min-h-screen">
@@ -121,30 +142,58 @@ const Donate = () => {
                   {/* Payment Methods */}
                   <div className="mb-8">
                     <Label className="text-base font-semibold mb-3 block">Payment Method</Label>
-                    <RadioGroup defaultValue="card">
-                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                    <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
+                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors ${paymentMethod === 'card' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'}`}>
                         <RadioGroupItem value="card" id="card" />
                         <span>💳 Card Payment (Visa, Mastercard, Amex)</span>
                       </label>
-                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors ${paymentMethod === 'mobile' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'}`}>
                         <RadioGroupItem value="mobile" id="mobile" />
                         <span>📱 Mobile Money (M-Pesa, Ecocash, MTN)</span>
                       </label>
-                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors ${paymentMethod === 'bank' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'}`}>
                         <RadioGroupItem value="bank" id="bank" />
                         <span>🏦 Bank Transfer (Wire/ACH)</span>
                       </label>
-                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors ${paymentMethod === 'crypto' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'}`}>
                         <RadioGroupItem value="crypto" id="crypto" />
                         <span>₿ Cryptocurrency (Bitcoin BTC)</span>
                       </label>
                     </RadioGroup>
                   </div>
 
-                  <Button className="w-full bg-hero-gradient hover:opacity-90 transition-opacity" size="lg">
-                    <Heart className="mr-2 w-5 h-5" fill="currentColor" />
-                    Donate ${amount} {frequency === 'monthly' ? '/month' : ''}
-                  </Button>
+                  {!showConfirmation ? (
+                    <Button 
+                      onClick={handleDonate} 
+                      disabled={isProcessing}
+                      className="w-full bg-hero-gradient hover:opacity-90 transition-opacity" 
+                      size="lg"
+                    >
+                      {isProcessing ? (
+                        <>
+                          <Loader2 className="mr-2 w-5 h-5 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          <Heart className="mr-2 w-5 h-5" fill="currentColor" />
+                          Donate ${amount} {frequency === 'monthly' ? '/month' : ''}
+                        </>
+                      )}
+                    </Button>
+                  ) : (
+                    <Card className="bg-primary text-primary-foreground">
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-center space-x-3">
+                          <CheckCircle className="w-6 h-6" />
+                          <div>
+                            <h3 className="font-semibold text-lg">Payment Successful!</h3>
+                            <p className="text-sm opacity-90">Thank you for your ${amount} donation</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
 
                   <p className="text-xs text-muted-foreground mt-4 text-center">
                     Secure payment processing • 100% of your donation goes to the project

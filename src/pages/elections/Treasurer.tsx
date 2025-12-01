@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Vote, TrendingUp, ArrowLeft, Share2, Globe } from "lucide-react";
+import { Vote, TrendingUp, ArrowLeft, Share2, DollarSign } from "lucide-react";
 import { toast } from "sonner";
 
 const calculateVotes = (baseVotes: number, dailyIncrease: number, candidateId: string) => {
@@ -25,15 +25,15 @@ const calculateVotes = (baseVotes: number, dailyIncrease: number, candidateId: s
   return baseVotes + additionalVotes;
 };
 
-const EastAfricaRep = () => {
+const Treasurer = () => {
   const navigate = useNavigate();
   const [selectedVote, setSelectedVote] = useState("");
   const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
 
   const nominees = [
-    { name: "Abdilkadir Hussein Malin", id: "eastafrica-abdilkadir", expertise: "Community Outreach & Development", bio: "Experienced leader in community outreach with extensive knowledge of development strategies. Committed to building sustainable mosques across East Africa.", baseVotes: 756, dailyIncrease: 20 },
-    { name: "Khadija Ahmed", id: "eastafrica-khadija", expertise: "Healthcare Initiatives", bio: "Healthcare specialist focused on integrating health services with mosque community centers to serve vulnerable populations.", baseVotes: 612, dailyIncrease: 11 },
-    { name: "Mohamed Ali Hassan", id: "eastafrica-mohamed", expertise: "Education Programs", bio: "Education advocate dedicated to establishing Quranic schools and literacy programs alongside mosque construction.", baseVotes: 534, dailyIncrease: 8 }
+    { name: "Zainab Hussain", id: "treasurer-zainab", expertise: "Finance & Audit Management", bio: "Certified financial expert with extensive experience in nonprofit financial management and audit compliance.", baseVotes: 698, dailyIncrease: 16 },
+    { name: "Aisha Rahman", id: "treasurer-aisha", expertise: "Strategic Financial Planning", bio: "Strategic planner focused on sustainable financial growth and transparent resource allocation for humanitarian projects.", baseVotes: 567, dailyIncrease: 13 },
+    { name: "Maryam Khalil", id: "treasurer-maryam", expertise: "Budget Analysis & Controls", bio: "Budget specialist committed to rigorous financial controls and maximizing donor contributions' impact.", baseVotes: 501, dailyIncrease: 9 }
   ];
 
   useEffect(() => {
@@ -101,11 +101,11 @@ const EastAfricaRep = () => {
             </Button>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-foreground/10 mb-4">
-                <Globe className="w-8 h-8" />
+                <DollarSign className="w-8 h-8" />
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">East Africa Regional Representative</h1>
+              <h1 className="text-5xl md:text-6xl font-bold mb-6">Treasurer Election</h1>
               <p className="text-xl leading-relaxed opacity-90">
-                Vote for the leader who will represent East Africa on the Global Committee
+                Vote for the Treasurer who will oversee financial operations and transparency
               </p>
             </div>
           </motion.div>
@@ -182,16 +182,15 @@ const EastAfricaRep = () => {
 
             <Card className="bg-muted">
               <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-3">About the Regional Representative Role</h3>
+                <h3 className="text-lg font-semibold mb-3">About the Treasurer Role</h3>
                 <p className="text-muted-foreground mb-3">
-                  The East Africa Regional Representative serves on the Global Committee to ensure 
-                  that the unique needs, perspectives, and priorities of East African communities 
-                  are represented in all decision-making processes.
+                  The Treasurer oversees all financial operations of the organization, ensuring proper 
+                  fund management, budget allocation, and financial transparency. This role is critical 
+                  to maintaining donor trust and organizational sustainability.
                 </p>
                 <p className="text-muted-foreground">
-                  This role involves coordinating with local communities, overseeing regional projects, 
-                  and advocating for mosque construction in underserved areas across Kenya, Tanzania, 
-                  Uganda, Somalia, and other East African nations.
+                  The Treasurer works closely with auditors, prepares financial reports, and ensures 
+                  compliance with all financial regulations and best practices in charitable giving.
                 </p>
               </CardContent>
             </Card>
@@ -204,4 +203,4 @@ const EastAfricaRep = () => {
   );
 };
 
-export default EastAfricaRep;
+export default Treasurer;

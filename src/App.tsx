@@ -11,7 +11,13 @@ import Donate from "./pages/Donate";
 import GetInvolved from "./pages/GetInvolved";
 import Contact from "./pages/Contact";
 import Chairperson from "./pages/elections/Chairperson";
+import ViceChairperson from "./pages/elections/ViceChairperson";
+import Secretary from "./pages/elections/Secretary";
+import Treasurer from "./pages/elections/Treasurer";
 import EastAfricaRep from "./pages/elections/EastAfricaRep";
+import NorthAfricaRep from "./pages/elections/NorthAfricaRep";
+import SouthAsiaRep from "./pages/elections/SouthAsiaRep";
+import SoutheastAsiaRep from "./pages/elections/SoutheastAsiaRep";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,7 +37,13 @@ const App = () => (
           <Route path="/get-involved" element={<GetInvolved />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/elections/chairperson" element={<Chairperson />} />
+          <Route path="/elections/vice-chairperson" element={<ViceChairperson />} />
+          <Route path="/elections/secretary" element={<Secretary />} />
+          <Route path="/elections/treasurer" element={<Treasurer />} />
           <Route path="/elections/east-africa" element={<EastAfricaRep />} />
+          <Route path="/elections/north-africa" element={<NorthAfricaRep />} />
+          <Route path="/elections/south-asia" element={<SouthAsiaRep />} />
+          <Route path="/elections/southeast-asia" element={<SoutheastAsiaRep />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

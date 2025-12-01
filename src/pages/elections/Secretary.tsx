@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Vote, TrendingUp, ArrowLeft, Share2, Globe } from "lucide-react";
+import { Vote, TrendingUp, ArrowLeft, Share2, FileText } from "lucide-react";
 import { toast } from "sonner";
 
 const calculateVotes = (baseVotes: number, dailyIncrease: number, candidateId: string) => {
@@ -25,15 +25,15 @@ const calculateVotes = (baseVotes: number, dailyIncrease: number, candidateId: s
   return baseVotes + additionalVotes;
 };
 
-const EastAfricaRep = () => {
+const Secretary = () => {
   const navigate = useNavigate();
   const [selectedVote, setSelectedVote] = useState("");
   const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
 
   const nominees = [
-    { name: "Abdilkadir Hussein Malin", id: "eastafrica-abdilkadir", expertise: "Community Outreach & Development", bio: "Experienced leader in community outreach with extensive knowledge of development strategies. Committed to building sustainable mosques across East Africa.", baseVotes: 756, dailyIncrease: 20 },
-    { name: "Khadija Ahmed", id: "eastafrica-khadija", expertise: "Healthcare Initiatives", bio: "Healthcare specialist focused on integrating health services with mosque community centers to serve vulnerable populations.", baseVotes: 612, dailyIncrease: 11 },
-    { name: "Mohamed Ali Hassan", id: "eastafrica-mohamed", expertise: "Education Programs", bio: "Education advocate dedicated to establishing Quranic schools and literacy programs alongside mosque construction.", baseVotes: 534, dailyIncrease: 8 }
+    { name: "Ibrahim Yusuf", id: "secretary-ibrahim", expertise: "Records Management & Documentation", bio: "Experienced administrator with proven expertise in maintaining comprehensive records and coordinating committee communications.", baseVotes: 654, dailyIncrease: 14 },
+    { name: "Hassan Ibrahim", id: "secretary-hassan", expertise: "Technology & Innovation", bio: "Technology specialist focused on modernizing documentation systems and enhancing digital communication platforms.", baseVotes: 512, dailyIncrease: 10 },
+    { name: "Yousef Malik", id: "secretary-yousef", expertise: "Youth Engagement & Outreach", bio: "Dynamic leader committed to engaging younger generations and modernizing committee outreach strategies.", baseVotes: 487, dailyIncrease: 7 }
   ];
 
   useEffect(() => {
@@ -101,11 +101,11 @@ const EastAfricaRep = () => {
             </Button>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-foreground/10 mb-4">
-                <Globe className="w-8 h-8" />
+                <FileText className="w-8 h-8" />
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">East Africa Regional Representative</h1>
+              <h1 className="text-5xl md:text-6xl font-bold mb-6">Secretary Election</h1>
               <p className="text-xl leading-relaxed opacity-90">
-                Vote for the leader who will represent East Africa on the Global Committee
+                Vote for the Secretary who will maintain records and coordinate communication
               </p>
             </div>
           </motion.div>
@@ -182,16 +182,15 @@ const EastAfricaRep = () => {
 
             <Card className="bg-muted">
               <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-3">About the Regional Representative Role</h3>
+                <h3 className="text-lg font-semibold mb-3">About the Secretary Role</h3>
                 <p className="text-muted-foreground mb-3">
-                  The East Africa Regional Representative serves on the Global Committee to ensure 
-                  that the unique needs, perspectives, and priorities of East African communities 
-                  are represented in all decision-making processes.
+                  The Secretary is responsible for maintaining accurate records of all committee meetings, 
+                  decisions, and communications. This role ensures transparency and accountability throughout 
+                  the organization.
                 </p>
                 <p className="text-muted-foreground">
-                  This role involves coordinating with local communities, overseeing regional projects, 
-                  and advocating for mosque construction in underserved areas across Kenya, Tanzania, 
-                  Uganda, Somalia, and other East African nations.
+                  The Secretary also coordinates communication between committee members, stakeholders, 
+                  and the broader community, serving as a central hub for information flow.
                 </p>
               </CardContent>
             </Card>
@@ -204,4 +203,4 @@ const EastAfricaRep = () => {
   );
 };
 
-export default EastAfricaRep;
+export default Secretary;

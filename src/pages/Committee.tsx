@@ -202,7 +202,7 @@ const Committee = () => {
     {
       region: "East Africa Regional Representative",
       nominees: [
-        { name: "Abdilkadir Hussein Malin", id: "eastafrica-abdilkadir", expertise: "Community Development & Islamic Finance" },
+        { name: "Abdilkadir Hussein Malin", id: "eastafrica-abdilkadir", expertise: "Community Outreach & Development" },
         { name: "Khadija Ahmed", id: "eastafrica-khadija", expertise: "Healthcare Initiatives" },
         { name: "Mohamed Ali Hassan", id: "eastafrica-mohamed", expertise: "Education Programs" }
       ]
@@ -624,6 +624,30 @@ const Committee = () => {
                                   </Button>
                                 </Link>
                               )}
+                              {item.position === "Vice Chairperson" && (
+                                <Link to="/elections/vice-chairperson">
+                                  <Button variant="outline" size="sm">
+                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                    View Page
+                                  </Button>
+                                </Link>
+                              )}
+                              {item.position === "Secretary" && (
+                                <Link to="/elections/secretary">
+                                  <Button variant="outline" size="sm">
+                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                    View Page
+                                  </Button>
+                                </Link>
+                              )}
+                              {item.position === "Treasurer" && (
+                                <Link to="/elections/treasurer">
+                                  <Button variant="outline" size="sm">
+                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                    View Page
+                                  </Button>
+                                </Link>
+                              )}
                             </div>
                             <RadioGroup
                               value={votes[item.position] || ""}
@@ -694,6 +718,30 @@ const Committee = () => {
                               </h4>
                               {item.region === "East Africa Regional Representative" && (
                                 <Link to="/elections/east-africa">
+                                  <Button variant="outline" size="sm">
+                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                    View Page
+                                  </Button>
+                                </Link>
+                              )}
+                              {item.region === "North Africa Regional Representative" && (
+                                <Link to="/elections/north-africa">
+                                  <Button variant="outline" size="sm">
+                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                    View Page
+                                  </Button>
+                                </Link>
+                              )}
+                              {item.region === "South Asia Regional Representative" && (
+                                <Link to="/elections/south-asia">
+                                  <Button variant="outline" size="sm">
+                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                    View Page
+                                  </Button>
+                                </Link>
+                              )}
+                              {item.region === "Southeast Asia Regional Representative" && (
+                                <Link to="/elections/southeast-asia">
                                   <Button variant="outline" size="sm">
                                     <ExternalLink className="w-4 h-4 mr-2" />
                                     View Page
