@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Vote, TrendingUp, ArrowLeft, Share2, Globe } from "lucide-react";
+import { Vote, TrendingUp, ArrowLeft, Share2, Users } from "lucide-react";
 import { toast } from "sonner";
 
 const calculateVotes = (baseVotes: number, dailyIncrease: number, candidateId: string) => {
@@ -25,15 +25,15 @@ const calculateVotes = (baseVotes: number, dailyIncrease: number, candidateId: s
   return baseVotes + additionalVotes;
 };
 
-const EastAfricaRep = () => {
+const ViceChairperson = () => {
   const navigate = useNavigate();
   const [selectedVote, setSelectedVote] = useState("");
   const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
 
   const nominees = [
-    { name: "Abdilkadir Hussein Malin", id: "eastafrica-abdilkadir", expertise: "Community Outreach & Development", bio: "Experienced leader in community outreach with extensive knowledge of development strategies. Committed to building sustainable mosques across East Africa.", baseVotes: 756, dailyIncrease: 20 },
-    { name: "Khadija Ahmed", id: "eastafrica-khadija", expertise: "Healthcare Initiatives", bio: "Healthcare specialist focused on integrating health services with mosque community centers to serve vulnerable populations.", baseVotes: 612, dailyIncrease: 11 },
-    { name: "Mohamed Ali Hassan", id: "eastafrica-mohamed", expertise: "Education Programs", bio: "Education advocate dedicated to establishing Quranic schools and literacy programs alongside mosque construction.", baseVotes: 534, dailyIncrease: 8 }
+    { name: "Fatima Al-Zahra", id: "vice-fatima", expertise: "Strategic Leadership & Development", bio: "Dynamic leader with extensive experience in strategic planning and community development initiatives across Southeast Asia.", baseVotes: 721, dailyIncrease: 18 },
+    { name: "Omar Abdullah", id: "vice-omar", expertise: "International Relations", bio: "Diplomatic expert focused on building partnerships and fostering international cooperation for mosque construction projects.", baseVotes: 589, dailyIncrease: 11 },
+    { name: "Safiya Abbas", id: "vice-safiya", expertise: "Public Relations & Communications", bio: "Communications specialist dedicated to promoting transparency and engagement with global stakeholders.", baseVotes: 456, dailyIncrease: 8 }
   ];
 
   useEffect(() => {
@@ -101,11 +101,11 @@ const EastAfricaRep = () => {
             </Button>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-foreground/10 mb-4">
-                <Globe className="w-8 h-8" />
+                <Users className="w-8 h-8" />
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">East Africa Regional Representative</h1>
+              <h1 className="text-5xl md:text-6xl font-bold mb-6">Vice Chairperson Election</h1>
               <p className="text-xl leading-relaxed opacity-90">
-                Vote for the leader who will represent East Africa on the Global Committee
+                Vote for the Vice Chairperson who will support the Chairperson and oversee special initiatives
               </p>
             </div>
           </motion.div>
@@ -182,16 +182,14 @@ const EastAfricaRep = () => {
 
             <Card className="bg-muted">
               <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-3">About the Regional Representative Role</h3>
+                <h3 className="text-lg font-semibold mb-3">About the Vice Chairperson Role</h3>
                 <p className="text-muted-foreground mb-3">
-                  The East Africa Regional Representative serves on the Global Committee to ensure 
-                  that the unique needs, perspectives, and priorities of East African communities 
-                  are represented in all decision-making processes.
+                  The Vice Chairperson works closely with the Chairperson to support committee operations, 
+                  lead special initiatives, and represent the organization at regional events and conferences.
                 </p>
                 <p className="text-muted-foreground">
-                  This role involves coordinating with local communities, overseeing regional projects, 
-                  and advocating for mosque construction in underserved areas across Kenya, Tanzania, 
-                  Uganda, Somalia, and other East African nations.
+                  This role requires strong leadership skills, strategic thinking, and the ability to 
+                  coordinate with diverse stakeholders across different regions and cultural contexts.
                 </p>
               </CardContent>
             </Card>
@@ -204,4 +202,4 @@ const EastAfricaRep = () => {
   );
 };
 
-export default EastAfricaRep;
+export default ViceChairperson;

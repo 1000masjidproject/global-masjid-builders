@@ -25,15 +25,14 @@ const calculateVotes = (baseVotes: number, dailyIncrease: number, candidateId: s
   return baseVotes + additionalVotes;
 };
 
-const EastAfricaRep = () => {
+const SoutheastAsiaRep = () => {
   const navigate = useNavigate();
   const [selectedVote, setSelectedVote] = useState("");
   const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
 
   const nominees = [
-    { name: "Abdilkadir Hussein Malin", id: "eastafrica-abdilkadir", expertise: "Community Outreach & Development", bio: "Experienced leader in community outreach with extensive knowledge of development strategies. Committed to building sustainable mosques across East Africa.", baseVotes: 756, dailyIncrease: 20 },
-    { name: "Khadija Ahmed", id: "eastafrica-khadija", expertise: "Healthcare Initiatives", bio: "Healthcare specialist focused on integrating health services with mosque community centers to serve vulnerable populations.", baseVotes: 612, dailyIncrease: 11 },
-    { name: "Mohamed Ali Hassan", id: "eastafrica-mohamed", expertise: "Education Programs", bio: "Education advocate dedicated to establishing Quranic schools and literacy programs alongside mosque construction.", baseVotes: 534, dailyIncrease: 8 }
+    { name: "Ali Rahman", id: "southeast-ali", expertise: "Technology & Innovation", bio: "Technology innovator focused on modernizing mosque facilities and integrating digital solutions for community services.", baseVotes: 678, dailyIncrease: 15 },
+    { name: "Nadia Zainal", id: "southeast-nadia", expertise: "Public Relations", bio: "Communications expert dedicated to strengthening ties between mosques and their surrounding communities.", baseVotes: 589, dailyIncrease: 11 }
   ];
 
   useEffect(() => {
@@ -103,9 +102,9 @@ const EastAfricaRep = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-foreground/10 mb-4">
                 <Globe className="w-8 h-8" />
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">East Africa Regional Representative</h1>
+              <h1 className="text-5xl md:text-6xl font-bold mb-6">Southeast Asia Regional Representative</h1>
               <p className="text-xl leading-relaxed opacity-90">
-                Vote for the leader who will represent East Africa on the Global Committee
+                Vote for the leader who will represent Southeast Asia on the Global Committee
               </p>
             </div>
           </motion.div>
@@ -184,14 +183,14 @@ const EastAfricaRep = () => {
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-3">About the Regional Representative Role</h3>
                 <p className="text-muted-foreground mb-3">
-                  The East Africa Regional Representative serves on the Global Committee to ensure 
-                  that the unique needs, perspectives, and priorities of East African communities 
+                  The Southeast Asia Regional Representative serves on the Global Committee to ensure 
+                  that the unique needs, perspectives, and priorities of Southeast Asian communities 
                   are represented in all decision-making processes.
                 </p>
                 <p className="text-muted-foreground">
                   This role involves coordinating with local communities, overseeing regional projects, 
-                  and advocating for mosque construction in underserved areas across Kenya, Tanzania, 
-                  Uganda, Somalia, and other East African nations.
+                  and advocating for mosque construction in underserved areas across Indonesia, Malaysia, 
+                  Philippines, Thailand, Singapore, and other Southeast Asian nations.
                 </p>
               </CardContent>
             </Card>
@@ -204,4 +203,4 @@ const EastAfricaRep = () => {
   );
 };
 
-export default EastAfricaRep;
+export default SoutheastAsiaRep;

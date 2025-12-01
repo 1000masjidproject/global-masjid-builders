@@ -25,15 +25,14 @@ const calculateVotes = (baseVotes: number, dailyIncrease: number, candidateId: s
   return baseVotes + additionalVotes;
 };
 
-const EastAfricaRep = () => {
+const NorthAfricaRep = () => {
   const navigate = useNavigate();
   const [selectedVote, setSelectedVote] = useState("");
   const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
 
   const nominees = [
-    { name: "Abdilkadir Hussein Malin", id: "eastafrica-abdilkadir", expertise: "Community Outreach & Development", bio: "Experienced leader in community outreach with extensive knowledge of development strategies. Committed to building sustainable mosques across East Africa.", baseVotes: 756, dailyIncrease: 20 },
-    { name: "Khadija Ahmed", id: "eastafrica-khadija", expertise: "Healthcare Initiatives", bio: "Healthcare specialist focused on integrating health services with mosque community centers to serve vulnerable populations.", baseVotes: 612, dailyIncrease: 11 },
-    { name: "Mohamed Ali Hassan", id: "eastafrica-mohamed", expertise: "Education Programs", bio: "Education advocate dedicated to establishing Quranic schools and literacy programs alongside mosque construction.", baseVotes: 534, dailyIncrease: 8 }
+    { name: "Mustafa El-Sayed", id: "northafrica-mustafa", expertise: "Engineering & Construction", bio: "Veteran engineer with decades of experience in mosque construction and architectural heritage preservation.", baseVotes: 689, dailyIncrease: 14 },
+    { name: "Amira Boutros", id: "northafrica-amira", expertise: "Social Development", bio: "Social development advocate focused on integrating community services with mosque facilities.", baseVotes: 567, dailyIncrease: 10 }
   ];
 
   useEffect(() => {
@@ -103,9 +102,9 @@ const EastAfricaRep = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-foreground/10 mb-4">
                 <Globe className="w-8 h-8" />
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">East Africa Regional Representative</h1>
+              <h1 className="text-5xl md:text-6xl font-bold mb-6">North Africa Regional Representative</h1>
               <p className="text-xl leading-relaxed opacity-90">
-                Vote for the leader who will represent East Africa on the Global Committee
+                Vote for the leader who will represent North Africa on the Global Committee
               </p>
             </div>
           </motion.div>
@@ -184,14 +183,14 @@ const EastAfricaRep = () => {
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-3">About the Regional Representative Role</h3>
                 <p className="text-muted-foreground mb-3">
-                  The East Africa Regional Representative serves on the Global Committee to ensure 
-                  that the unique needs, perspectives, and priorities of East African communities 
+                  The North Africa Regional Representative serves on the Global Committee to ensure 
+                  that the unique needs, perspectives, and priorities of North African communities 
                   are represented in all decision-making processes.
                 </p>
                 <p className="text-muted-foreground">
                   This role involves coordinating with local communities, overseeing regional projects, 
-                  and advocating for mosque construction in underserved areas across Kenya, Tanzania, 
-                  Uganda, Somalia, and other East African nations.
+                  and advocating for mosque construction in underserved areas across Egypt, Libya, 
+                  Tunisia, Algeria, Morocco, and other North African nations.
                 </p>
               </CardContent>
             </Card>
@@ -204,4 +203,4 @@ const EastAfricaRep = () => {
   );
 };
 
-export default EastAfricaRep;
+export default NorthAfricaRep;
