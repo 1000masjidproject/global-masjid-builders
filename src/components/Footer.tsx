@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, Mail, Phone } from "lucide-react";
+import { Heart, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -39,14 +39,8 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4" />
-                <a href="mailto:info@1000masjid.org" className="hover:text-accent transition-colors">
-                  info@1000masjid.org
-                </a>
-              </li>
-              <li className="flex items-center space-x-2">
-                <Phone className="w-4 h-4" />
-                <a href="tel:+1234567890" className="hover:text-accent transition-colors">
-                  +1 (234) 567-890
+                <a href="mailto:1000masjidproject@proton.me" className="hover:text-accent transition-colors">
+                  1000masjidproject@proton.me
                 </a>
               </li>
             </ul>
