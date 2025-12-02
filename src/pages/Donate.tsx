@@ -16,6 +16,7 @@ const Donate = () => {
   const [frequency, setFrequency] = useState("one-time");
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [country, setCountry] = useState("");
+  const [otherCountry, setOtherCountry] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -24,6 +25,11 @@ const Donate = () => {
   const handleDonate = async () => {
     if (!country) {
       toast.error("Please select your country");
+      return;
+    }
+
+    if (country === "other" && !otherCountry.trim()) {
+      toast.error("Please enter your country");
       return;
     }
 
@@ -36,7 +42,8 @@ const Donate = () => {
     
     // Redirect to payment gateway for card and mobile money
     setTimeout(() => {
-      const paymentUrl = `https://paywith.nobuk.africa/3gmjqkjx7v?amount=${amount}&frequency=${frequency}&country=${country}`;
+      const finalCountry = country === "other" ? otherCountry : country;
+      const paymentUrl = `https://paywith.nobuk.africa/3gmjqkjx7v?amount=${amount}&frequency=${frequency}&country=${encodeURIComponent(finalCountry)}`;
       window.open(paymentUrl, '_blank');
       setIsProcessing(false);
       toast.success("Redirecting to secure payment gateway...");
@@ -150,10 +157,21 @@ const Donate = () => {
                   <div className="mb-6">
                     <Label className="text-base font-semibold mb-3 block">Country</Label>
                     <Select value={country} onValueChange={setCountry}>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-background">
                         <SelectValue placeholder="Select your country" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-background z-50">
+                        <SelectItem value="usa">United States</SelectItem>
+                        <SelectItem value="uk">United Kingdom</SelectItem>
+                        <SelectItem value="canada">Canada</SelectItem>
+                        <SelectItem value="uae">United Arab Emirates</SelectItem>
+                        <SelectItem value="saudi-arabia">Saudi Arabia</SelectItem>
+                        <SelectItem value="turkey">Turkey</SelectItem>
+                        <SelectItem value="egypt">Egypt</SelectItem>
+                        <SelectItem value="morocco">Morocco</SelectItem>
+                        <SelectItem value="nigeria">Nigeria</SelectItem>
+                        <SelectItem value="ghana">Ghana</SelectItem>
+                        <SelectItem value="south-africa">South Africa</SelectItem>
                         <SelectItem value="kenya">Kenya</SelectItem>
                         <SelectItem value="uganda">Uganda</SelectItem>
                         <SelectItem value="tanzania">Tanzania</SelectItem>
@@ -161,25 +179,28 @@ const Donate = () => {
                         <SelectItem value="ethiopia">Ethiopia</SelectItem>
                         <SelectItem value="somalia">Somalia</SelectItem>
                         <SelectItem value="south-sudan">South Sudan</SelectItem>
-                        <SelectItem value="nigeria">Nigeria</SelectItem>
-                        <SelectItem value="ghana">Ghana</SelectItem>
-                        <SelectItem value="south-africa">South Africa</SelectItem>
-                        <SelectItem value="egypt">Egypt</SelectItem>
-                        <SelectItem value="morocco">Morocco</SelectItem>
                         <SelectItem value="pakistan">Pakistan</SelectItem>
                         <SelectItem value="bangladesh">Bangladesh</SelectItem>
                         <SelectItem value="india">India</SelectItem>
                         <SelectItem value="indonesia">Indonesia</SelectItem>
                         <SelectItem value="malaysia">Malaysia</SelectItem>
-                        <SelectItem value="uae">United Arab Emirates</SelectItem>
-                        <SelectItem value="saudi-arabia">Saudi Arabia</SelectItem>
-                        <SelectItem value="turkey">Turkey</SelectItem>
-                        <SelectItem value="uk">United Kingdom</SelectItem>
-                        <SelectItem value="usa">United States</SelectItem>
-                        <SelectItem value="canada">Canada</SelectItem>
                         <SelectItem value="other">Other</SelectItem>
                       </SelectContent>
                     </Select>
+                    
+                    {country === "other" && (
+                      <div className="mt-3">
+                        <Label htmlFor="other-country" className="text-sm mb-2 block">Enter Your Country</Label>
+                        <Input
+                          id="other-country"
+                          type="text"
+                          value={otherCountry}
+                          onChange={(e) => setOtherCountry(e.target.value)}
+                          placeholder="Type your country name"
+                          className="w-full"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   {/* Payment Methods */}
@@ -214,7 +235,7 @@ const Donate = () => {
                   {!showConfirmation && (
                     <Button 
                       onClick={handleDonate} 
-                      disabled={isProcessing || !country}
+                      disabled={isProcessing || !country || (country === "other" && !otherCountry.trim())}
                       className="w-full bg-hero-gradient hover:opacity-90 transition-opacity" 
                       size="lg"
                     >
