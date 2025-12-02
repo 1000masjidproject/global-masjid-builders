@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
+import { Mail, MapPin, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 
 const Contact = () => {
@@ -140,41 +140,11 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Email</h3>
-                      <a href="mailto:contact@1000masjidglobal.org" className="text-primary hover:underline">
-                        contact@1000masjidglobal.org
+                      <a href="mailto:1000masjidproject@proton.me" className="text-primary hover:underline">
+                        1000masjidproject@proton.me
                       </a>
                       <p className="text-sm text-muted-foreground mt-1">
                         For general inquiries and partnership opportunities
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Phone</h3>
-                      <a href="tel:+97145678234" className="text-primary hover:underline">
-                        +971 4 567 8234
-                      </a>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Sunday - Thursday, 9am - 6pm GST
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <MessageSquare className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">WhatsApp</h3>
-                      <a href="https://wa.me/971567823456" className="text-primary hover:underline">
-                        +971 56 782 3456
-                      </a>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Available 24/7 for urgent inquiries
                       </p>
                     </div>
                   </div>

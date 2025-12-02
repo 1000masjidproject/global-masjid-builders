@@ -205,11 +205,11 @@ const Home = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center text-sm text-muted-foreground mb-2">
                     <MapPin className="w-4 h-4 mr-1" />
-                    <span>Nairobi, Kenya</span>
+                    <span>Cairo, Egypt</span>
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">Al-Noor Mosque</h3>
+                  <h3 className="text-xl font-semibold mb-2">Mercy Mosque</h3>
                   <p className="text-muted-foreground text-sm">
-                    85% complete - Expected completion Q2 2025
+                    65% complete - Expected completion Q3 2025
                   </p>
                 </CardContent>
               </Card>
@@ -245,86 +245,6 @@ const Home = () => {
               </Button>
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Election Announcement */}
-      <section className="py-20 bg-gradient-to-br from-accent to-accent/80">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-5xl mx-auto"
-          >
-            <div className="bg-background/95 backdrop-blur rounded-2xl p-8 md:p-12 shadow-2xl border border-accent/20">
-              <div className="text-center mb-8">
-                <div className="inline-block px-4 py-2 bg-accent/20 rounded-full text-sm font-semibold text-accent-foreground mb-4">
-                  🗳️ ELECTIONS NOW OPEN
-                </div>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                  Shape the Future of Our Global Community
-                </h2>
-                <p className="text-xl text-muted-foreground">
-                  Vote for the 15-member Global Committee that will lead 1000 Masjid Global
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="text-center p-6 bg-muted rounded-xl">
-                  <div className="text-3xl font-bold text-primary mb-2">15</div>
-                  <div className="text-sm text-muted-foreground">Committee Positions</div>
-                </div>
-                <div className="text-center p-6 bg-muted rounded-xl">
-                  <div className="text-3xl font-bold text-primary mb-2">58</div>
-                  <div className="text-sm text-muted-foreground">Countries Participating</div>
-                </div>
-                <div className="text-center p-6 bg-muted rounded-xl">
-                  <div className="text-3xl font-bold text-primary mb-2">Live</div>
-                  <div className="text-sm text-muted-foreground">Voting Status</div>
-                </div>
-              </div>
-
-              <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 mb-8">
-                <h3 className="text-lg font-semibold mb-3 flex items-center">
-                  <span className="text-2xl mr-2">🕌</span>
-                  Why Your Vote Matters
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  The elected committee will oversee the allocation of $500M in funding, guide construction 
-                  projects across continents, and ensure transparency in every step of our mission to build 
-                  1000 mosques worldwide.
-                </p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-start">
-                    <span className="text-primary mr-2">✓</span>
-                    <span>Direct impact on project selection and fund distribution</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-primary mr-2">✓</span>
-                    <span>Ensure regional representation and cultural sensitivity</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-primary mr-2">✓</span>
-                    <span>Uphold Islamic principles of consultation (Shura) and accountability</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="text-center">
-                <Link to="/committee">
-                  <Button size="lg" className="bg-hero-gradient hover:opacity-90 transition-opacity text-lg px-8">
-                    View Candidates & Cast Your Vote
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-                <p className="text-sm text-muted-foreground mt-4">
-                  Elections are transparent • Live vote counts • Your voice matters
-                </p>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
 
