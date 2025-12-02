@@ -7,33 +7,40 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Heart, Shield, Users, CheckCircle, Loader2 } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Heart, Shield, Users, CheckCircle, Loader2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 
 const Donate = () => {
   const [amount, setAmount] = useState("100");
   const [frequency, setFrequency] = useState("one-time");
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [country, setCountry] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const presetAmounts = ["50", "100", "250", "500", "1000"];
 
   const handleDonate = async () => {
+    if (!country) {
+      toast.error("Please select your country");
+      return;
+    }
+
+    if (paymentMethod === "bank" || paymentMethod === "crypto") {
+      toast.info("This payment method is not available in your region at the moment");
+      return;
+    }
+
     setIsProcessing(true);
     
-    // Simulate payment gateway processing
+    // Redirect to payment gateway for card and mobile money
     setTimeout(() => {
+      const paymentUrl = `https://paywith.nobuk.africa/3gmjqkjx7v?amount=${amount}&frequency=${frequency}&country=${country}`;
+      window.open(paymentUrl, '_blank');
       setIsProcessing(false);
-      setShowConfirmation(true);
-      toast.success("Payment processed successfully!");
-      
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setShowConfirmation(false);
-        setAmount("100");
-      }, 3000);
-    }, 2000);
+      toast.success("Redirecting to secure payment gateway...");
+    }, 1000);
   };
 
   return (
@@ -139,6 +146,42 @@ const Donate = () => {
                     </RadioGroup>
                   </div>
 
+                  {/* Country Selection */}
+                  <div className="mb-6">
+                    <Label className="text-base font-semibold mb-3 block">Country</Label>
+                    <Select value={country} onValueChange={setCountry}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your country" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="kenya">Kenya</SelectItem>
+                        <SelectItem value="uganda">Uganda</SelectItem>
+                        <SelectItem value="tanzania">Tanzania</SelectItem>
+                        <SelectItem value="rwanda">Rwanda</SelectItem>
+                        <SelectItem value="ethiopia">Ethiopia</SelectItem>
+                        <SelectItem value="somalia">Somalia</SelectItem>
+                        <SelectItem value="south-sudan">South Sudan</SelectItem>
+                        <SelectItem value="nigeria">Nigeria</SelectItem>
+                        <SelectItem value="ghana">Ghana</SelectItem>
+                        <SelectItem value="south-africa">South Africa</SelectItem>
+                        <SelectItem value="egypt">Egypt</SelectItem>
+                        <SelectItem value="morocco">Morocco</SelectItem>
+                        <SelectItem value="pakistan">Pakistan</SelectItem>
+                        <SelectItem value="bangladesh">Bangladesh</SelectItem>
+                        <SelectItem value="india">India</SelectItem>
+                        <SelectItem value="indonesia">Indonesia</SelectItem>
+                        <SelectItem value="malaysia">Malaysia</SelectItem>
+                        <SelectItem value="uae">United Arab Emirates</SelectItem>
+                        <SelectItem value="saudi-arabia">Saudi Arabia</SelectItem>
+                        <SelectItem value="turkey">Turkey</SelectItem>
+                        <SelectItem value="uk">United Kingdom</SelectItem>
+                        <SelectItem value="usa">United States</SelectItem>
+                        <SelectItem value="canada">Canada</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   {/* Payment Methods */}
                   <div className="mb-8">
                     <Label className="text-base font-semibold mb-3 block">Payment Method</Label>
@@ -151,52 +194,46 @@ const Donate = () => {
                         <RadioGroupItem value="mobile" id="mobile" />
                         <span>📱 Mobile Money (M-Pesa, Ecocash, MTN)</span>
                       </label>
-                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors ${paymentMethod === 'bank' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'}`}>
-                        <RadioGroupItem value="bank" id="bank" />
-                        <span>🏦 Bank Transfer (Wire/ACH)</span>
+                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer opacity-60 ${paymentMethod === 'bank' ? 'border-primary bg-primary/5' : 'border-border'}`}>
+                        <RadioGroupItem value="bank" id="bank" disabled />
+                        <div className="flex-1">
+                          <span>🏦 Bank Transfer (Wire/ACH)</span>
+                          <p className="text-xs text-muted-foreground mt-1">Not available in your region</p>
+                        </div>
                       </label>
-                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors ${paymentMethod === 'crypto' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'}`}>
-                        <RadioGroupItem value="crypto" id="crypto" />
-                        <span>₿ Cryptocurrency (Bitcoin BTC)</span>
+                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer opacity-60 ${paymentMethod === 'crypto' ? 'border-primary bg-primary/5' : 'border-border'}`}>
+                        <RadioGroupItem value="crypto" id="crypto" disabled />
+                        <div className="flex-1">
+                          <span>₿ Cryptocurrency (Bitcoin BTC)</span>
+                          <p className="text-xs text-muted-foreground mt-1">Not available in your region</p>
+                        </div>
                       </label>
                     </RadioGroup>
                   </div>
 
-                  {!showConfirmation ? (
+                  {!showConfirmation && (
                     <Button 
                       onClick={handleDonate} 
-                      disabled={isProcessing}
+                      disabled={isProcessing || !country}
                       className="w-full bg-hero-gradient hover:opacity-90 transition-opacity" 
                       size="lg"
                     >
                       {isProcessing ? (
                         <>
                           <Loader2 className="mr-2 w-5 h-5 animate-spin" />
-                          Processing...
+                          Redirecting to payment...
                         </>
                       ) : (
                         <>
                           <Heart className="mr-2 w-5 h-5" fill="currentColor" />
-                          Donate ${amount} {frequency === 'monthly' ? '/month' : ''}
+                          Proceed to Payment - ${amount} {frequency === 'monthly' ? '/month' : ''}
                         </>
                       )}
                     </Button>
-                  ) : (
-                    <Card className="bg-primary text-primary-foreground">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-center space-x-3">
-                          <CheckCircle className="w-6 h-6" />
-                          <div>
-                            <h3 className="font-semibold text-lg">Payment Successful!</h3>
-                            <p className="text-sm opacity-90">Thank you for your ${amount} donation</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
                   )}
 
                   <p className="text-xs text-muted-foreground mt-4 text-center">
-                    Secure payment processing • 100% of your donation goes to the project
+                    🔒 Secure payment via Nobuk Africa • SSL encrypted • Your data is protected
                   </p>
                 </CardContent>
               </Card>

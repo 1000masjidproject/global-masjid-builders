@@ -140,11 +140,11 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Email</h3>
-                      <a href="mailto:info@1000masjid.org" className="text-primary hover:underline">
-                        info@1000masjid.org
+                      <a href="mailto:contact@1000masjidglobal.org" className="text-primary hover:underline">
+                        contact@1000masjidglobal.org
                       </a>
                       <p className="text-sm text-muted-foreground mt-1">
-                        For general inquiries and information
+                        For general inquiries and partnership opportunities
                       </p>
                     </div>
                   </div>
@@ -155,11 +155,11 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Phone</h3>
-                      <a href="tel:+1234567890" className="text-primary hover:underline">
-                        +1 (234) 567-890
+                      <a href="tel:+97145678234" className="text-primary hover:underline">
+                        +971 4 567 8234
                       </a>
                       <p className="text-sm text-muted-foreground mt-1">
-                        Monday - Friday, 9am - 6pm EST
+                        Sunday - Thursday, 9am - 6pm GST
                       </p>
                     </div>
                   </div>
@@ -170,11 +170,11 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">WhatsApp</h3>
-                      <a href="https://wa.me/1234567890" className="text-primary hover:underline">
-                        Message us on WhatsApp
+                      <a href="https://wa.me/971567823456" className="text-primary hover:underline">
+                        +971 56 782 3456
                       </a>
                       <p className="text-sm text-muted-foreground mt-1">
-                        Quick responses for urgent matters
+                        Available 24/7 for urgent inquiries
                       </p>
                     </div>
                   </div>
@@ -186,11 +186,11 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold mb-1">Office</h3>
                       <p className="text-muted-foreground">
-                        1000 Masjid Global HQ
+                        1000 Masjid Global Initiative
                         <br />
-                        Global Outreach Center
+                        Office 2401, The Binary Tower
                         <br />
-                        International District
+                        Business Bay, Dubai, UAE
                       </p>
                     </div>
                   </div>
