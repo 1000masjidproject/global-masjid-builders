@@ -3,11 +3,14 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { MapPin, Clock, CheckCircle, Building, DollarSign, Target } from "lucide-react";
+import { MapPin, Clock, CheckCircle, Building, DollarSign, Target, Loader2 } from "lucide-react";
 import mosque1 from "@/assets/mosque-1.jpg";
 import mosqueConstruction from "@/assets/mosque-construction.jpg";
+import { useDonationSettings } from "@/hooks/useDonationSettings";
 
 const ProgressPage = () => {
+  const { data: donationSettings, isLoading } = useDonationSettings();
+
   const completedProjects = [
     { name: "Al-Rahman Mosque", location: "Jakarta, Indonesia", year: 2024, capacity: "2,000+", image: mosque1 },
     { name: "Unity Mosque", location: "Sarajevo, Bosnia", year: 2023, capacity: "1,500+", image: mosque1 },
@@ -25,6 +28,20 @@ const ProgressPage = () => {
     { name: "Harmony Mosque", location: "Kuala Lumpur, Malaysia", phase: "Funding" },
     { name: "Blessed Mosque", location: "Casablanca, Morocco", phase: "Planning" },
   ];
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("en-US", { 
+      style: "currency", 
+      currency: "USD", 
+      maximumFractionDigits: 0 
+    }).format(value);
+  };
+
+  const totalRaised = donationSettings?.total_raised || 247546755;
+  const targetGoal = donationSettings?.target_goal || 500000000;
+  const totalDonors = donationSettings?.total_donors || 142847;
+  const avgPerMosque = donationSettings?.avg_per_mosque || 405000;
+  const progressPercent = ((totalRaised / targetGoal) * 100).toFixed(1);
 
   return (
     <div className="min-h-screen">
@@ -68,51 +85,57 @@ const ProgressPage = () => {
 
             <Card className="bg-background text-foreground">
               <CardContent className="p-8">
-                <div className="space-y-6">
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <div className="text-sm text-muted-foreground mb-1">Total Raised</div>
-                      <div className="text-4xl font-bold text-primary">$247,500,000</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground mb-1">Target Goal</div>
-                      <div className="text-2xl font-bold">$500,000,000</div>
-                    </div>
+                {isLoading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loader2 className="w-8 h-8 animate-spin text-primary" />
                   </div>
-                  
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="font-medium">Progress to Goal</span>
-                      <span className="text-primary font-bold text-lg">49.5%</span>
+                ) : (
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <div className="text-sm text-muted-foreground mb-1">Total Raised</div>
+                        <div className="text-4xl font-bold text-primary">{formatCurrency(totalRaised)}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm text-muted-foreground mb-1">Target Goal</div>
+                        <div className="text-2xl font-bold">{formatCurrency(targetGoal)}</div>
+                      </div>
                     </div>
-                    <Progress value={49.5} className="h-4" />
-                  </div>
+                    
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="font-medium">Progress to Goal</span>
+                        <span className="text-primary font-bold text-lg">{progressPercent}%</span>
+                      </div>
+                      <Progress value={parseFloat(progressPercent)} className="h-4" />
+                    </div>
 
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t">
-                    <div className="text-center p-4 bg-muted rounded-lg">
-                      <DollarSign className="w-6 h-6 mx-auto mb-2 text-primary" />
-                      <div className="text-2xl font-bold">142,847</div>
-                      <div className="text-sm text-muted-foreground">Total Donors</div>
+                    <div className="grid grid-cols-2 gap-4 pt-4 border-t">
+                      <div className="text-center p-4 bg-muted rounded-lg">
+                        <DollarSign className="w-6 h-6 mx-auto mb-2 text-primary" />
+                        <div className="text-2xl font-bold">{totalDonors.toLocaleString()}</div>
+                        <div className="text-sm text-muted-foreground">Total Donors</div>
+                      </div>
+                      <div className="text-center p-4 bg-muted rounded-lg">
+                        <Building className="w-6 h-6 mx-auto mb-2 text-primary" />
+                        <div className="text-2xl font-bold">{formatCurrency(avgPerMosque)}</div>
+                        <div className="text-sm text-muted-foreground">Avg per Mosque</div>
+                      </div>
                     </div>
-                    <div className="text-center p-4 bg-muted rounded-lg">
-                      <Building className="w-6 h-6 mx-auto mb-2 text-primary" />
-                      <div className="text-2xl font-bold">$405,000</div>
-                      <div className="text-sm text-muted-foreground">Avg per Mosque</div>
-                    </div>
-                  </div>
 
-                  <div className="text-center pt-4">
-                    <p className="text-muted-foreground mb-4">
-                      Every contribution brings us closer to our mission. Your generosity is transforming communities.
-                    </p>
-                    <a 
-                      href="/donate" 
-                      className="inline-block px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
-                    >
-                      Donate Now
-                    </a>
+                    <div className="text-center pt-4">
+                      <p className="text-muted-foreground mb-4">
+                        Every contribution brings us closer to our mission. Your generosity is transforming communities.
+                      </p>
+                      <a 
+                        href="/donate" 
+                        className="inline-block px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                      >
+                        Donate Now
+                      </a>
+                    </div>
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
           </motion.div>
