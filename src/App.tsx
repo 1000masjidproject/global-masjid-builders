@@ -19,6 +19,8 @@ import NorthAfricaRep from "./pages/elections/NorthAfricaRep";
 import SouthAsiaRep from "./pages/elections/SouthAsiaRep";
 import SoutheastAsiaRep from "./pages/elections/SoutheastAsiaRep";
 import NotFound from "./pages/NotFound";
+import Admin from "./pages/Admin";
+import AdminAuth from "./pages/AdminAuth";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +46,8 @@ const App = () => (
           <Route path="/elections/north-africa" element={<NorthAfricaRep />} />
           <Route path="/elections/south-asia" element={<SouthAsiaRep />} />
           <Route path="/elections/southeast-asia" element={<SoutheastAsiaRep />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/auth" element={<AdminAuth />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
