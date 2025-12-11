@@ -7,11 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Shield, LogOut, DollarSign, Users, Vote, Loader2, Save, Trash2 } from "lucide-react";
+import { Shield, LogOut, DollarSign, Users, Vote, Loader2, Save, Trash2, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useDonationSettings } from "@/hooks/useDonationSettings";
 import { useElections } from "@/hooks/useElections";
+import { useDonations } from "@/hooks/useDonations";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -19,6 +20,7 @@ const Admin = () => {
   const { user, isAdmin, signOut, loading } = useAuth();
   const { data: donationSettings, isLoading: loadingDonations } = useDonationSettings();
   const { data: elections, isLoading: loadingElections } = useElections();
+  const { data: donations, isLoading: loadingDonationsLog } = useDonations();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -137,7 +139,7 @@ const Admin = () => {
     }
   };
 
-  if (loading || loadingDonations || loadingElections) {
+  if (loading || loadingDonations || loadingElections || loadingDonationsLog) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -191,8 +193,8 @@ const Admin = () => {
               Elections
             </TabsTrigger>
             <TabsTrigger value="donors" className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
-              Donations Log
+              <FileText className="w-4 h-4" />
+              Donation Report
             </TabsTrigger>
           </TabsList>
 
@@ -407,7 +409,7 @@ const Admin = () => {
             </motion.div>
           </TabsContent>
 
-          {/* Donations Log Tab */}
+          {/* Donation Report Tab */}
           <TabsContent value="donors">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -416,12 +418,53 @@ const Admin = () => {
             >
               <Card>
                 <CardHeader>
-                  <CardTitle>Donations Log</CardTitle>
+                  <CardTitle>Donation Report</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground text-center py-8">
-                    No donations recorded yet. Donations will appear here once processed through the payment gateway.
-                  </p>
+                  {donations && donations.length > 0 ? (
+                    <>
+                      <div className="mb-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="bg-muted p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground">Total Donations</p>
+                          <p className="text-2xl font-bold">{donations.length}</p>
+                        </div>
+                        <div className="bg-muted p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground">Total Amount</p>
+                          <p className="text-2xl font-bold">
+                            {formatCurrency(donations.reduce((sum, d) => sum + Number(d.amount), 0).toString())}
+                          </p>
+                        </div>
+                      </div>
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Date</TableHead>
+                            <TableHead>Donor</TableHead>
+                            <TableHead>Amount</TableHead>
+                            <TableHead>Purpose</TableHead>
+                            <TableHead>Country</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {donations.map((donation) => (
+                            <TableRow key={donation.id}>
+                              <TableCell>
+                                {new Date(donation.created_at).toLocaleDateString()}
+                              </TableCell>
+                              <TableCell>{donation.donor_name || "Anonymous"}</TableCell>
+                              <TableCell>{formatCurrency(donation.amount.toString())}</TableCell>
+                              <TableCell className="capitalize">{donation.purpose || "General"}</TableCell>
+                              <TableCell>{donation.country || "-"}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </>
+                  ) : (
+                    <p className="text-muted-foreground text-center py-8">
+                      No donations recorded yet. Donations will appear here once processed through the payment gateway.
+                    </p>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>
