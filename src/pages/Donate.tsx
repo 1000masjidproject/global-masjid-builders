@@ -6,44 +6,26 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heart, Shield, Users, CheckCircle, Loader2, AlertCircle } from "lucide-react";
+import { Heart, Shield, Users, CheckCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 const Donate = () => {
-  const [amount, setAmount] = useState("100");
-  const [frequency, setFrequency] = useState("one-time");
-  const [paymentMethod, setPaymentMethod] = useState("card");
-  const [country, setCountry] = useState("");
-  const [otherCountry, setOtherCountry] = useState("");
+  const [donorName, setDonorName] = useState("");
+  const [isAnonymous, setIsAnonymous] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-
-  const presetAmounts = ["50", "100", "250", "500", "1000"];
 
   const handleDonate = async () => {
-    if (!country) {
-      toast.error("Please select your country");
-      return;
-    }
-
-    if (country === "other" && !otherCountry.trim()) {
-      toast.error("Please enter your country");
-      return;
-    }
-
-    if (paymentMethod === "bank" || paymentMethod === "crypto") {
-      toast.info("This payment method is not available in your region at the moment");
+    if (!isAnonymous && !donorName.trim()) {
+      toast.error("Please enter your name or choose to donate anonymously");
       return;
     }
 
     setIsProcessing(true);
     
-    // Redirect to payment gateway for card and mobile money
+    // Redirect to payment gateway
     setTimeout(() => {
-      const finalCountry = country === "other" ? otherCountry : country;
-      const paymentUrl = `https://paywith.nobuk.africa/3gmjqkjx7v?amount=${amount}&frequency=${frequency}&country=${encodeURIComponent(finalCountry)}`;
+      const name = isAnonymous ? "Anonymous" : donorName.trim();
+      const paymentUrl = `https://paywith.nobuk.africa/3gmjqkjx7v?donor=${encodeURIComponent(name)}`;
       window.open(paymentUrl, '_blank');
       setIsProcessing(false);
       toast.success("Redirecting to secure payment gateway...");
@@ -81,177 +63,57 @@ const Donate = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Card>
+            <Card>
                 <CardContent className="p-8">
-                  <h2 className="text-3xl font-bold mb-6">Choose Your Contribution</h2>
+                  <h2 className="text-3xl font-bold mb-6">Make Your Donation</h2>
                   
-                  {/* Frequency Selection */}
+                  {/* Name Input */}
                   <div className="mb-6">
-                    <Label className="text-base font-semibold mb-3 block">Donation Type</Label>
-                    <RadioGroup value={frequency} onValueChange={setFrequency}>
-                      <div className="grid grid-cols-2 gap-4">
-                        <label className={`flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition-colors ${frequency === 'one-time' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}>
-                          <RadioGroupItem value="one-time" id="one-time" />
-                          <span className="font-medium">One-Time</span>
-                        </label>
-                        <label className={`flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition-colors ${frequency === 'monthly' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}>
-                          <RadioGroupItem value="monthly" id="monthly" />
-                          <span className="font-medium">Monthly</span>
-                        </label>
-                      </div>
-                    </RadioGroup>
+                    <Label className="text-base font-semibold mb-3 block">Your Name</Label>
+                    <Input
+                      type="text"
+                      value={donorName}
+                      onChange={(e) => setDonorName(e.target.value)}
+                      placeholder="Enter your name"
+                      disabled={isAnonymous}
+                      className={isAnonymous ? "opacity-50" : ""}
+                    />
                   </div>
 
-                  {/* Amount Selection */}
-                  <div className="mb-6">
-                    <Label className="text-base font-semibold mb-3 block">Select Amount</Label>
-                    <div className="grid grid-cols-3 gap-3 mb-4">
-                      {presetAmounts.map((preset) => (
-                        <Button
-                          key={preset}
-                          type="button"
-                          variant={amount === preset ? "default" : "outline"}
-                          onClick={() => setAmount(preset)}
-                          className={amount === preset ? "bg-primary" : ""}
-                        >
-                          ${preset}
-                        </Button>
-                      ))}
-                    </div>
-                    <div>
-                      <Label htmlFor="custom-amount" className="text-sm mb-2 block">Custom Amount</Label>
-                      <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                        <Input
-                          id="custom-amount"
-                          type="number"
-                          value={amount}
-                          onChange={(e) => setAmount(e.target.value)}
-                          className="pl-7"
-                          min="1"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Donation Options */}
+                  {/* Anonymous Option */}
                   <div className="mb-8">
-                    <Label className="text-base font-semibold mb-3 block">Donation Purpose (Optional)</Label>
-                    <RadioGroup defaultValue="general">
-                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
-                        <RadioGroupItem value="general" id="general" />
-                        <span>General Fund - Where Most Needed</span>
-                      </label>
-                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
-                        <RadioGroupItem value="waqf" id="waqf" />
-                        <span>Waqf (Endowment)</span>
-                      </label>
-                      <label className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
-                        <RadioGroupItem value="sadaqah" id="sadaqah" />
-                        <span>Sadaqah Jariyah</span>
-                      </label>
-                    </RadioGroup>
+                    <label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={isAnonymous}
+                        onChange={(e) => {
+                          setIsAnonymous(e.target.checked);
+                          if (e.target.checked) setDonorName("");
+                        }}
+                        className="w-5 h-5 rounded border-primary text-primary focus:ring-primary"
+                      />
+                      <span className="font-medium">Donate Anonymously</span>
+                    </label>
                   </div>
 
-                  {/* Country Selection */}
-                  <div className="mb-6">
-                    <Label className="text-base font-semibold mb-3 block">Country</Label>
-                    <Select value={country} onValueChange={setCountry}>
-                      <SelectTrigger className="bg-background">
-                        <SelectValue placeholder="Select your country" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-background z-50">
-                        <SelectItem value="usa">United States</SelectItem>
-                        <SelectItem value="uk">United Kingdom</SelectItem>
-                        <SelectItem value="canada">Canada</SelectItem>
-                        <SelectItem value="uae">United Arab Emirates</SelectItem>
-                        <SelectItem value="saudi-arabia">Saudi Arabia</SelectItem>
-                        <SelectItem value="turkey">Turkey</SelectItem>
-                        <SelectItem value="egypt">Egypt</SelectItem>
-                        <SelectItem value="morocco">Morocco</SelectItem>
-                        <SelectItem value="nigeria">Nigeria</SelectItem>
-                        <SelectItem value="ghana">Ghana</SelectItem>
-                        <SelectItem value="south-africa">South Africa</SelectItem>
-                        <SelectItem value="kenya">Kenya</SelectItem>
-                        <SelectItem value="uganda">Uganda</SelectItem>
-                        <SelectItem value="tanzania">Tanzania</SelectItem>
-                        <SelectItem value="rwanda">Rwanda</SelectItem>
-                        <SelectItem value="ethiopia">Ethiopia</SelectItem>
-                        <SelectItem value="somalia">Somalia</SelectItem>
-                        <SelectItem value="south-sudan">South Sudan</SelectItem>
-                        <SelectItem value="pakistan">Pakistan</SelectItem>
-                        <SelectItem value="bangladesh">Bangladesh</SelectItem>
-                        <SelectItem value="india">India</SelectItem>
-                        <SelectItem value="indonesia">Indonesia</SelectItem>
-                        <SelectItem value="malaysia">Malaysia</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    
-                    {country === "other" && (
-                      <div className="mt-3">
-                        <Label htmlFor="other-country" className="text-sm mb-2 block">Enter Your Country</Label>
-                        <Input
-                          id="other-country"
-                          type="text"
-                          value={otherCountry}
-                          onChange={(e) => setOtherCountry(e.target.value)}
-                          placeholder="Type your country name"
-                          className="w-full"
-                        />
-                      </div>
+                  <Button 
+                    onClick={handleDonate} 
+                    disabled={isProcessing || (!isAnonymous && !donorName.trim())}
+                    className="w-full bg-hero-gradient hover:opacity-90 transition-opacity" 
+                    size="lg"
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Loader2 className="mr-2 w-5 h-5 animate-spin" />
+                        Redirecting to payment...
+                      </>
+                    ) : (
+                      <>
+                        <Heart className="mr-2 w-5 h-5" fill="currentColor" />
+                        Proceed to Donate
+                      </>
                     )}
-                  </div>
-
-                  {/* Payment Methods */}
-                  <div className="mb-8">
-                    <Label className="text-base font-semibold mb-3 block">Payment Method</Label>
-                    <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
-                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors ${paymentMethod === 'card' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'}`}>
-                        <RadioGroupItem value="card" id="card" />
-                        <span>💳 Card Payment (Visa, Mastercard, Amex)</span>
-                      </label>
-                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors ${paymentMethod === 'mobile' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'}`}>
-                        <RadioGroupItem value="mobile" id="mobile" />
-                        <span>📱 Mobile Money (M-Pesa, Ecocash, MTN)</span>
-                      </label>
-                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer opacity-60 ${paymentMethod === 'bank' ? 'border-primary bg-primary/5' : 'border-border'}`}>
-                        <RadioGroupItem value="bank" id="bank" disabled />
-                        <div className="flex-1">
-                          <span>🏦 Bank Transfer (Wire/ACH)</span>
-                          <p className="text-xs text-muted-foreground mt-1">Not available in your region</p>
-                        </div>
-                      </label>
-                      <label className={`flex items-center space-x-3 p-3 border rounded-lg cursor-pointer opacity-60 ${paymentMethod === 'crypto' ? 'border-primary bg-primary/5' : 'border-border'}`}>
-                        <RadioGroupItem value="crypto" id="crypto" disabled />
-                        <div className="flex-1">
-                          <span>₿ Cryptocurrency (Bitcoin BTC)</span>
-                          <p className="text-xs text-muted-foreground mt-1">Not available in your region</p>
-                        </div>
-                      </label>
-                    </RadioGroup>
-                  </div>
-
-                  {!showConfirmation && (
-                    <Button 
-                      onClick={handleDonate} 
-                      disabled={isProcessing || !country || (country === "other" && !otherCountry.trim())}
-                      className="w-full bg-hero-gradient hover:opacity-90 transition-opacity" 
-                      size="lg"
-                    >
-                      {isProcessing ? (
-                        <>
-                          <Loader2 className="mr-2 w-5 h-5 animate-spin" />
-                          Redirecting to payment...
-                        </>
-                      ) : (
-                        <>
-                          <Heart className="mr-2 w-5 h-5" fill="currentColor" />
-                          Proceed to Payment - ${amount} {frequency === 'monthly' ? '/month' : ''}
-                        </>
-                      )}
-                    </Button>
-                  )}
+                  </Button>
 
                   <p className="text-xs text-muted-foreground mt-4 text-center">
                     🔒 Secure payment via Nobuk Africa • SSL encrypted • Your data is protected
