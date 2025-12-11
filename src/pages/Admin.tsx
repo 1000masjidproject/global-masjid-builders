@@ -20,7 +20,7 @@ const Admin = () => {
   const { user, isAdmin, signOut, loading } = useAuth();
   const { data: donationSettings, isLoading: loadingDonations } = useDonationSettings();
   const { data: elections, isLoading: loadingElections } = useElections();
-  const { data: donations, isLoading: loadingDonationsLog } = useDonations();
+  const { data: donations, isLoading: loadingDonationsLog } = useDonations(isAdmin);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -139,7 +139,7 @@ const Admin = () => {
     }
   };
 
-  if (loading || loadingDonations || loadingElections || loadingDonationsLog) {
+  if (loading || loadingDonations || loadingElections || (isAdmin && loadingDonationsLog)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />

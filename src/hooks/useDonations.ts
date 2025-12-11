@@ -12,7 +12,7 @@ export interface Donation {
   created_at: string;
 }
 
-export const useDonations = () => {
+export const useDonations = (enabled: boolean = true) => {
   return useQuery({
     queryKey: ["donations"],
     queryFn: async () => {
@@ -24,5 +24,6 @@ export const useDonations = () => {
       if (error) throw error;
       return data as Donation[];
     },
+    enabled,
   });
 };
